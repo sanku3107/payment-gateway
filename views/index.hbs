@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+  <title>Hello, world!</title>
+</head>
+
+<body style="background-color: rgb(48, 48, 48);">
+
+  <div class="container text-center my-5" style="color: white;">
+    <h1>RazorPay</h1>
+    <button type="button" class="btn btn-lg btn-danger my-5" id="rzp-button1">Donate</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+
+  <script>
+    axios.post("/order").then((info) => {
+      console.log(info);
+
+      var options = {
+        "key": "rzp_test_CMVdihSLEuPHnl", // Enter the Key ID generated from the Dashboard
+        "amount": "50000",
+        "currency": "INR",
+        "name": "Ayush Foundation",
+        "description": "Test Transaction",
+        "image": "https://assets.stickpng.com/images/580b57fcd9996e24bc43c28b.png",
+        "order_id": info.data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "callback_url": "/order-completed",
+        "theme": {
+          "color": "#ba0315"
+        }
+      };
+
+      var rzp1 = new Razorpay(options);
+      document.getElementById('rzp-button1').onclick = function (e) {
+        rzp1.open();
+        e.preventDefault();
+      }
+    })
+  </script>
+</body>
+
+</html>
